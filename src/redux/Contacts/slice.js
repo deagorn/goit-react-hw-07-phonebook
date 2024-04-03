@@ -1,16 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    items: [{ id: '1', name: 'Valik', number: 115515155, favorite: false, author:"user" },
-    { id: '2', name: 'Olya', number: 5646546546, favorite: true, author:"user" }],
+    items: [],
     filter: 'all',
     value: '',
+    loading: false,
+    error: null,
 }
 
 const slice = createSlice({
     name: 'contacts',
     initialState,
     reducers: {
+        fetchIsDane: (state, {payload}) => {
+            state.items = payload
+            state.loading = false
+        },
+        isLoading: (state, {payload}) => {
+            state.loading = true
+        },
+        isError: (state, {payload}) => {
+            state.error = payload
+            state.loading = false
+        },
         removeContact: (state, action) => {
             state.items = state.items.filter(item => item.id !== action.payload)
         },
@@ -35,9 +47,11 @@ const slice = createSlice({
         selectContacts: state => state.items,
         selectFilter: state => state.filter,
         selectValue: state => state.value,
+        selectIsLoading: state => state.loading,
+        selectIsError: state => state.error,
     }
 })
 
 export const contactsReducer = slice.reducer
-export const {removeContact, addContacts, changeFilter, addToFavorite, editContact, changeValue} = slice.actions
-export const {selectContacts, selectFilter, selectValue} = slice.selectors
+export const { removeContact, addContacts, changeFilter, addToFavorite, editContact, changeValue, fetchIsDane, isLoading, isError } = slice.actions;
+export const {selectContacts, selectFilter, selectValue, selectIsLoading, selectIsError} = slice.selectors
