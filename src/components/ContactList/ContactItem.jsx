@@ -22,11 +22,11 @@ export const ContactItem = ({ id, name, phone, favorite, author, handleEditItem 
                 {favorite ? <BiSolidLike size={18}/> : <BiLike size={18} /> }
             </button>
 
-           {author === author && <button onClick={handleEditItem} type="button" className={s.deleteButton}>
+           {user === author && <button onClick={handleEditItem} type="button" className={s.deleteButton}>
                 <MdOutlineEdit size={18} />
             </button>}
 
-            {author === author && <button onClick={() => dispatch(deleteContact(id))} type="button" className={s.deleteButton}>
+            {user === author && <button onClick={() => dispatch(deleteContact(id))} type="button" className={s.deleteButton}>
                 <MdDeleteOutline size={18} />
             </button>}
         </li>
