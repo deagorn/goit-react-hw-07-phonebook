@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { fetchDataThunk } from "./operations"
+import { fetchDataThunk, removeContactThunk } from "./operations"
 
 const initialState = {
     items: [],
@@ -45,9 +45,21 @@ const slice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(fetchDataThunk.fulfilled, (state, { payload }) => {
-            state.items = payload
+        builder.addCase(fetchDataThunk.pending, state => {
+            state.loading = true
+            state.error = null
         })
+            .addCase(fetchDataThunk.fulfilled, (state, { payload }) => {
+                state.items = payload
+                state.loading = false
+            })
+            .addCase(fetchDataThunk.rejected, (state, { payload }) => {
+                state.error = payload
+                state.loading = false
+            })
+            .addCase(removeContactThunk.fulfilled, (state, { payload }) => {
+                state.items = state.items.filter(item => item.id !== payload)
+            })
     },
     selectors: {
         selectContacts: state => state.items,

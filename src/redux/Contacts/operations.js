@@ -15,26 +15,36 @@ export const fetchDataThunk = createAsyncThunk('fetchData', async () => {
     }
 })
 
-export const fetchData = () => async (dispatch) => {
-try {
-    dispatch(isLoading())
-    const { data } = await axios.get('contacts')
-    console.log(data)
-    dispatch(fetchIsDane(data))
+// export const fetchData = () => async (dispatch) => {
+// try {
+//     dispatch(isLoading())
+//     const { data } = await axios.get('contacts')
+//     console.log(data)
+//     dispatch(fetchIsDane(data))
 
-} catch (error) {
-    dispatch(isError(error.message))
-}
-}
+// } catch (error) {
+//     dispatch(isError(error.message))
+// }
+// }
 
-export const deleteContact = (id) => async (dispatch) => {
-    try {
-        await axios.delete(`contacts/${id}`)
-        dispatch(removeContact(id))
-    } catch (error) {
-    dispatch(isError(error.message))
+
+export const removeContactThunk = createAsyncThunk('removeContact', async (id, thunkAPI) => {
+        try {
+            const { data } = await axios.delete(`contacts/${id}`)
+            return data.id
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message)
     }
-}
+})
+
+// export const deleteContact = (id) => async (dispatch) => {
+//     try {
+//         await axios.delete(`contacts/${id}`)
+//         dispatch(removeContact(id))
+//     } catch (error) {
+//     dispatch(isError(error.message))
+//     }
+// }
 
 export const addContact = body => async (dispatch) => {
     try {

@@ -8,7 +8,7 @@ import { BiSolidLike } from "react-icons/bi";
 import { MdOutlineEdit } from "react-icons/md";
 import { addToFavorite } from '../../redux/Contacts/slice';
 import { selectUser } from '../../redux/userSlice';
-import { deleteContact } from '../../redux/Contacts/operations';
+import { removeContactThunk } from '../../redux/Contacts/operations';
 
 
 export const ContactItem = ({ id, name, phone, favorite, author, handleEditItem }) => {
@@ -26,7 +26,7 @@ export const ContactItem = ({ id, name, phone, favorite, author, handleEditItem 
                 <MdOutlineEdit size={18} />
             </button>}
 
-            {user === author && <button onClick={() => dispatch(deleteContact(id))} type="button" className={s.deleteButton}>
+            {user === author && <button onClick={() => dispatch(removeContactThunk(id))} type="button" className={s.deleteButton}>
                 <MdDeleteOutline size={18} />
             </button>}
         </li>
