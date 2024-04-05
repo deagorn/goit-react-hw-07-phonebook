@@ -1,8 +1,19 @@
 import axios from "axios";
 import { addContacts, editContact, fetchIsDane, isError, isLoading, removeContact } from "./slice";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 axios.defaults.baseURL = 'https://660ca50d3a0766e85dbe6ab6.mockapi.io/'
 // contacts
+
+
+export const fetchDataThunk = createAsyncThunk('fetchData', async () => {
+    try {
+        const { data } = await axios.get('/contacts')
+        return data;
+
+    } catch (error) {
+    }
+})
 
 export const fetchData = () => async (dispatch) => {
 try {

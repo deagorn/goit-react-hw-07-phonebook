@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { fetchDataThunk } from "./operations"
 
 const initialState = {
     items: [],
@@ -42,6 +43,11 @@ const slice = createSlice({
         changeValue: (state, action) => {
             state.value = action.payload
         }
+    },
+    extraReducers: builder => {
+        builder.addCase(fetchDataThunk.fulfilled, (state, { payload }) => {
+            state.items = payload
+        })
     },
     selectors: {
         selectContacts: state => state.items,

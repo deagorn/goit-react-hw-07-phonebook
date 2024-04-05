@@ -6,7 +6,7 @@ import { UserForm } from 'components/UserForm/UserForm'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser } from '../../redux/userSlice'
-import { fetchData } from '../../redux/Contacts/operations'
+import { fetchDataThunk } from '../../redux/Contacts/operations'
 import { selectIsError, selectIsLoading } from '../../redux/Contacts/slice'
 
 
@@ -15,7 +15,7 @@ export const TodoList = () => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		dispatch(fetchData())
+		dispatch(fetchDataThunk())
 	}, [dispatch]);
 
 	const error = useSelector(selectIsError)
