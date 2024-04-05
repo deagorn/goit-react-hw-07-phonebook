@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addContacts, fetchIsDane, isError, isLoading, removeContact } from "./slice";
+import { addContacts, editContact, fetchIsDane, isError, isLoading, removeContact } from "./slice";
 
 axios.defaults.baseURL = 'https://660ca50d3a0766e85dbe6ab6.mockapi.io/'
 // contacts
@@ -33,6 +33,16 @@ export const addContact = body => async (dispatch) => {
 
         const response = await axios.post('contacts', body, { headers });
         dispatch(addContacts(response.data));
+    } catch (error) {
+        dispatch(isError(error.message));
+    }
+};
+
+export const editContactThunk = body => async dispatch => {
+    try {
+        const response = await axios.put(`contacts/${body.id}`, body);
+        dispatch(editContact(response.data));
+        console.log(response);
     } catch (error) {
         dispatch(isError(error.message));
     }
