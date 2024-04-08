@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { fetchDataThunk, removeContactThunk } from "./operations"
+import { addContactThunk, addToFavariteThunk, editContactThunk, fetchDataThunk, removeContactThunk } from "./operations"
 
 const initialState = {
     items: [],
@@ -59,6 +59,16 @@ const slice = createSlice({
             })
             .addCase(removeContactThunk.fulfilled, (state, { payload }) => {
                 state.items = state.items.filter(item => item.id !== payload)
+            })
+            .addCase(addContactThunk.fulfilled, (state, { payload }) => {
+                state.items.push(payload)
+            })
+            .addCase(editContactThunk.fulfilled, (state, { payload }) => {
+                state.items = state.items.map(item => item.id === payload.id ? { ...payload } : item)
+            })
+            .addCase(addToFavariteThunk.fulfilled, (state, { payload }) => {
+                const item = state.items.find(item => item.id === payload.id)
+                item.favorite = !item.favorite
             })
     },
     selectors: {

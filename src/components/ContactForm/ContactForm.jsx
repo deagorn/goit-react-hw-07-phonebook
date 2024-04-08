@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux"
 // import { addContacts } from "../../redux/Contacts/slice"
 import { selectUser } from "../../redux/userSlice"
-import { addContact } from "../../redux/Contacts/operations"
+import { addContactThunk } from "../../redux/Contacts/operations"
 
 export const ContactForm = () => {
 
@@ -17,7 +17,7 @@ export const ContactForm = () => {
   
   const submit = ({ name, phone }) => {
 		const newContact = { name, phone, id: nanoid(), favorite: false, author:user }
-		dispatch(addContact(newContact))
+		dispatch(addContactThunk(newContact))
 		reset()
   }
 

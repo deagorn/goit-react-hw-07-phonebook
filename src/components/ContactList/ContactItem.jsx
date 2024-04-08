@@ -6,19 +6,19 @@ import { MdDeleteOutline } from "react-icons/md";
 import { BiLike } from "react-icons/bi";
 import { BiSolidLike } from "react-icons/bi";
 import { MdOutlineEdit } from "react-icons/md";
-import { addToFavorite } from '../../redux/Contacts/slice';
+// import { addToFavorite } from '../../redux/Contacts/slice';
 import { selectUser } from '../../redux/userSlice';
 import { removeContactThunk } from '../../redux/Contacts/operations';
 
 
-export const ContactItem = ({ id, name, phone, favorite, author, handleEditItem }) => {
+export const ContactItem = ({ id, name, phone, favorite, author, handleEditItem, addToFavarite }) => {
     const dispatch = useDispatch()
     const user = useSelector(selectUser)
     return (
         <li key={id} className={s.listItem}>  <div className={s.contactInfo}>
             <span className={s.contactName}> {name} </span> : {phone}
             <span className={s.author} >by {author} </span> </div>
-            <button onClick={() => dispatch(addToFavorite(id))} type="button" className={s.deleteButton}>
+            <button onClick={addToFavarite} type="button" className={s.deleteButton}>
                 {favorite ? <BiSolidLike size={18}/> : <BiLike size={18} /> }
             </button>
 
