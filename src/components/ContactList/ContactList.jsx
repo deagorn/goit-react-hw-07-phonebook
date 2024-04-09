@@ -6,16 +6,17 @@ import { useModal } from "hooks/useModal"
 import { EditForm } from "components/EditForm/EditForm"
 import Modal from "components/Modal/Modal"
 import s from "./ContactList.module.css"
-import { selectContacts, selectFilter, selectValue } from '../../redux/Contacts/slice'
+// import { selectContacts, selectFilter, selectValue } from '../../redux/Contacts/slice'
 import { addToFavariteThunk } from '../../redux/Contacts/operations'
+import { selectFilterData } from '../../redux/Contacts/selectors'
 
 
 export const ContactList = () => {
-    const contacts = useSelector(selectContacts);
-    const filter = useSelector(selectFilter);
-    const value = useSelector(selectValue);
+    const contacts = useSelector(selectFilterData);
+    // const filter = useSelector(selectFilter);
+    // const value = useSelector(selectValue);
 
-    const filteredItems = contacts;
+    // const filteredItems = contacts;
 
     const { isOpen, toggle } = useModal()
     const [content, setContent] = useState('');
@@ -24,21 +25,21 @@ export const ContactList = () => {
 
     
 
-    const filteredData = () =>  {
-        switch (filter) {
-            case 'all':
-                return contacts.filter(contact =>
-                    contact.name.toLowerCase().includes(value.toLowerCase())
-                );
+    // const filteredData = () =>  {
+    //     switch (filter) {
+    //         case 'all':
+    //             return contacts.filter(contact =>
+    //                 contact.name.toLowerCase().includes(value.toLowerCase())
+    //             );
             
-            case 'favorites':
-                return contacts.filter(contact =>
-                    contact.name.toLowerCase().includes(value.toLowerCase()) && contact.favorite)
+    //         case 'favorites':
+    //             return contacts.filter(contact =>
+    //                 contact.name.toLowerCase().includes(value.toLowerCase()) && contact.favorite)
             
-            default:
-                return filteredItems;
-        }
-    }
+    //         default:
+    //             return filteredItems;
+    //     }
+    // }
 
     const handleEditItem = (content) => {
         toggle();
@@ -54,7 +55,7 @@ export const ContactList = () => {
 
     return (
         <ul className={s.listContainer}>
-            {filteredData().map(contact =>
+            {contacts.map(contact =>
                 <ContactItem handleEditItem={() => handleEditItem(contact)} addToFavarite={() => addToFavarite(contact)} key={contact.id} {...contact} />)}
             {isOpen && <Modal closeModal={toggle}>
                 <EditForm content={content} toggle={toggle}/>
