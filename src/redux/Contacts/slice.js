@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { addContactThunk, addToFavariteThunk, editContactThunk, fetchDataThunk, removeContactThunk } from "./operations"
 
 const initialState = {
@@ -45,18 +45,19 @@ const slice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(fetchDataThunk.pending, state => {
-            state.loading = true
-            state.error = null
-        })
+        builder
+            // .addCase(fetchDataThunk.pending, state => {
+            //     state.loading = true
+            //     state.error = null
+            // })
             .addCase(fetchDataThunk.fulfilled, (state, { payload }) => {
                 state.items = payload
                 state.loading = false
             })
-            .addCase(fetchDataThunk.rejected, (state, { payload }) => {
-                state.error = payload
-                state.loading = false
-            })
+            // .addCase(fetchDataThunk.rejected, (state, { payload }) => {
+            //     state.error = payload
+            //     state.loading = false
+            // })
             .addCase(removeContactThunk.fulfilled, (state, { payload }) => {
                 state.items = state.items.filter(item => item.id !== payload)
             })
@@ -69,6 +70,14 @@ const slice = createSlice({
             .addCase(addToFavariteThunk.fulfilled, (state, { payload }) => {
                 const item = state.items.find(item => item.id === payload.id)
                 item.favorite = !item.favorite
+            })
+            .addMatcher(isAnyOf(fetchDataThunk.pending, removeContactThunk.pending, addContactThunk.pending), state => {
+                state.loading = true
+                state.error = null
+            })
+            .addMatcher(isAnyOf(fetchDataThunk.rejected, removeContactThunk.rejected, addContactThunk.rejected), (state, { payload }) => {
+                state.error = payload
+                state.loading = false
             })
     },
     selectors: {
